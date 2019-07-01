@@ -36,6 +36,22 @@ final class JusticeTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $person->getAddress());
     }
 
+    public function testFindByIdWithDiacriticsInName()
+    {
+        // given
+        $expectedName = 'Ing. Petr Šourek';
+
+        // when
+        $justiceRecord = $this->justice->findById(41324960);
+        $this->assertInstanceOf('Defr\Justice\JusticeRecord', $justiceRecord);
+
+        // then
+        $people = $justiceRecord->getPeople();
+        $this->assertArrayHasKey($expectedName, $people);
+        $person = $people[$expectedName];
+        $this->assertEquals($expectedName, $person->getName());
+    }
+
     public function testNotFoundFindId()
     {
         $justiceRecord = $this->justice->findById(123456);

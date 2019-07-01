@@ -38,8 +38,13 @@ final class PersonParser
                         $birthday = null;
                     }
 
-                    return ['name' => ucwords(mb_strtolower($name)), 'birthday' => $birthday, 'address' => isset($address) ? $address : ''];
+                    return [
+                        'name' => mb_convert_case(mb_strtolower($name), MB_CASE_TITLE),
+                        'birthday' => $birthday,
+                        'address' => isset($address) ? $address : ''
+                    ];
                 }
+
                 foreach ($contentItems as $item) {
                     if (mb_strpos($item, 'zapsáno') !== false) {
                         $registered = DateTimeParser::parseFromCzechDateString(mb_substr($item, 8));
@@ -48,6 +53,7 @@ final class PersonParser
                         $deleted = DateTimeParser::parseFromCzechDateString(mb_substr($item, 9));
                     }
                 }
+
                 if (isset($registered) && !isset($deleted)) {
                     return ['registered' => $registered];
                 }
@@ -57,12 +63,25 @@ final class PersonParser
         });
 
         if (isset($person[2]['birthday']) && isset($person[3]['registered'])) {
-            return new Person($person[2]['name'], $person[2]['birthday'], $person[2]['address'], $person[3]['registered'], $person[0]['type']);
+            return new Person(
+                $person[2]['name'],
+                $person[2]['birthday'],
+                $person[2]['address'],
+                $person[3]['registered'],
+                $person[0]['type']
+            );
         }
         if (isset($person[1]['birthday']) && isset($person[2]['registered'])) {
-            return new Person($person[1]['name'], $person[1]['birthday'], $person[1]['address'], $person[2]['registered'], $person[0]['type']);
+            return new Person(
+                $person[1]['name'],
+                $person[1]['birthday'],
+                $person[1]['address'],
+                $person[2]['registered'],
+                $person[0]['type']
+            );
         }
 
         return null;
     }
+
 }
