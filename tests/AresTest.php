@@ -119,6 +119,25 @@ final class AresTest extends PHPUnit_Framework_TestCase
                 'expectedExceptionMessage' => 'IČ firmy nebylo nalezeno.',
                 'expected'                 => null,
             ],
+            [
+                // string ID number with leading zeros
+                'companyId'                => '04084063',
+                'expectedException'        => null,
+                'expectedExceptionMessage' => null,
+                'expected'                 => new Ares\AresRecord(
+                    '04084063',
+                    'CZ04084063',
+                    'Česká telekomunikační infrastruktura a.s.',
+                    'Olšanská',
+                    '2681',
+                    '6',
+                    'Praha 3 - Žižkov',
+                    '13000',
+                    'Městský soud v Praze',
+                    'B',
+                    '20623'
+                ),
+            ],
         ];
     }
 
