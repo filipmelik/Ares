@@ -15,7 +15,7 @@ use GuzzleHttp\Client as GuzzleClient;
 class AresRecord
 {
     /**
-     * @var int
+     * @var string
      */
     private $companyId;
 
@@ -55,6 +55,21 @@ class AresRecord
     private $zip;
 
     /**
+     * @var string
+     */
+    private $court;
+
+    /**
+     * @var string
+     */
+    private $section;
+
+    /**
+     * @var string
+     */
+    private $subSection;
+
+    /**
      * @var null|GouteClient
      */
     protected $client;
@@ -62,14 +77,17 @@ class AresRecord
     /**
      * AresRecord constructor.
      *
-     * @param null $companyId
-     * @param null $taxId
-     * @param null $companyName
-     * @param null $street
-     * @param null $streetHouseNumber
-     * @param null $streetOrientationNumber
-     * @param null $town
-     * @param null $zip
+     * @param string|null $companyId
+     * @param string|null $taxId
+     * @param string|null $companyName
+     * @param string|null $street
+     * @param string|null $streetHouseNumber
+     * @param string|null $streetOrientationNumber
+     * @param string|null $town
+     * @param string|null $zip
+     * @param string|null $court
+     * @param string|null $section
+     * @param string|null $subSection
      */
     public function __construct(
         $companyId = null,
@@ -79,7 +97,10 @@ class AresRecord
         $streetHouseNumber = null,
         $streetOrientationNumber = null,
         $town = null,
-        $zip = null
+        $zip = null,
+        $court = null,
+        $section = null,
+        $subSection = null
     ) {
         $this->companyId = $companyId;
         $this->taxId = !empty($taxId) ? $taxId : null;
@@ -89,6 +110,9 @@ class AresRecord
         $this->streetOrientationNumber = !empty($streetOrientationNumber) ? $streetOrientationNumber : null;
         $this->town = $town;
         $this->zip = $zip;
+        $this->court = $court;
+        $this->section = $section;
+        $this->subSection = $subSection;
     }
 
     /**
@@ -174,6 +198,42 @@ class AresRecord
     public function getZip()
     {
         return $this->zip;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCourt()
+    {
+        return $this->court;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSubSection()
+    {
+        return $this->subSection;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSectionWithSubSection()
+    {
+        if ($this->section === null || $this->subSection === null) {
+            return null;
+        }
+
+        return sprintf('%s %s', $this->section, $this->subSection);
     }
 
     /**
@@ -279,4 +339,29 @@ class AresRecord
     {
         $this->zip = $zip;
     }
+
+    /**
+     * @param string $managingCourt
+     */
+    public function setCourt($managingCourt)
+    {
+        $this->court = $managingCourt;
+    }
+
+    /**
+     * @param string $section
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+    }
+
+    /**
+     * @param string $subSection
+     */
+    public function setSubSection($subSection)
+    {
+        $this->subSection = $subSection;
+    }
+
 }

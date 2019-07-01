@@ -155,6 +155,15 @@ class Ares
                 }
 
                 $record->setZip(strval($elements->AA->PSC));
+                $record->setCourt(strval($elements->ROR->SZ->SD->T));
+
+                if (strval($elements->ROR->SZ->OV)) {
+                    $sectionData = explode(' ', strval($elements->ROR->SZ->OV));
+                    $section = $sectionData[0];
+                    $subSection = $sectionData[1];
+                    $record->setSection($section);
+                    $record->setSubSection($subSection);
+                }
             } else {
                 throw new AresException('Databáze ARES není dostupná.');
             }
