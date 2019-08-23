@@ -138,6 +138,26 @@ final class AresTest extends PHPUnit_Framework_TestCase
                     '20623'
                 ),
             ],
+            [
+                // company with address that is returned in composite element AA-CA and has weird VAT ID
+                'companyId'                => '60192852',
+                'expectedException'        => null,
+                'expectedExceptionMessage' => null,
+                'expected'                 => new Ares\AresRecord(
+                    '60192852',
+                    'Skupinove_DPH',
+                    'Modrá pyramida stavební spořitelna, a.s.',
+                    'Bělehradská',
+                    null,
+                    null,
+                    'Praha 2',
+                    '12021',
+                    'Městský soud v Praze',
+                    'B',
+                    '2281',
+                    '128, čp.222'
+                ),
+            ],
         ];
     }
 

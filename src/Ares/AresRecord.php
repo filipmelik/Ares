@@ -35,6 +35,14 @@ class AresRecord
     private $street;
 
     /**
+     * XML for some companies does not return structured info about about street and its numbers but rather
+     * one composite element with street and numbers. That's why this property exists.
+     *
+     * @var string
+     */
+    private $fullStreet;
+
+    /**
      * @var string
      */
     private $streetHouseNumber;
@@ -88,6 +96,7 @@ class AresRecord
      * @param string|null $court
      * @param string|null $section
      * @param string|null $subSection
+     * @param null        $fullStreet
      */
     public function __construct(
         $companyId = null,
@@ -100,7 +109,8 @@ class AresRecord
         $zip = null,
         $court = null,
         $section = null,
-        $subSection = null
+        $subSection = null,
+        $fullStreet = null
     ) {
         $this->companyId = $companyId;
         $this->taxId = !empty($taxId) ? $taxId : null;
@@ -113,6 +123,7 @@ class AresRecord
         $this->court = $court;
         $this->section = $section;
         $this->subSection = $subSection;
+        $this->fullStreet = $fullStreet;
     }
 
     /**
@@ -120,12 +131,16 @@ class AresRecord
      */
     public function getStreetWithNumbers()
     {
-        return $this->street.' '
-            .($this->streetOrientationNumber
-                ?
-                $this->streetHouseNumber.'/'.$this->streetOrientationNumber
-                :
-                $this->streetHouseNumber);
+        if (!empty($this->fullStreet)) {
+            return $this->fullStreet;
+        } else {
+            return $this->street.' '
+                .($this->streetOrientationNumber
+                    ?
+                    $this->streetHouseNumber.'/'.$this->streetOrientationNumber
+                    :
+                    $this->streetHouseNumber);
+        }
     }
 
     /**
@@ -362,6 +377,14 @@ class AresRecord
     public function setSubSection($subSection)
     {
         $this->subSection = $subSection;
+    }
+
+    /**
+     * @param string $fullStreet
+     */
+    public function setFullStreet($fullStreet)
+    {
+        $this->fullStreet = $fullStreet;
     }
 
 }

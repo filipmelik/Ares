@@ -139,16 +139,21 @@ class Ares
                 $record->setCompanyName(strval($elements->OF));
                 $record->setStreet(strval($elements->AA->NU));
 
-                if (strval($elements->AA->CO)) {
-                    $record->setStreetHouseNumber(strval($elements->AA->CD));
-                    $record->setStreetOrientationNumber(strval($elements->AA->CO));
+                if (empty($elements->AA->CO) && empty($elements->AA->C) && !empty($elements->AA->CA)) {
+                    $fullStreet = sprintf('%s %s', $record->getStreet(), strval($elements->AA->CA));
+                    $record->setFullStreet($fullStreet);
                 } else {
-                    $record->setStreetHouseNumber(strval($elements->AA->CD));
+                    if (strval($elements->AA->CO)) {
+                        $record->setStreetHouseNumber(strval($elements->AA->CD));
+                        $record->setStreetOrientationNumber(strval($elements->AA->CO));
+                    } else {
+                        $record->setStreetHouseNumber(strval($elements->AA->CD));
+                    }
                 }
 
                 if (strval($elements->AA->N) === 'Praha') {
                     $record->setTown(strval($elements->AA->NMC).' - '.strval($elements->AA->NCO));
-                } elseif (strval($elements->AA->NCO) !== strval($elements->AA->N)) {
+                } elseif (!empty($elements->AA->NCO) && (strval($elements->AA->NCO) !== strval($elements->AA->N))) {
                     $record->setTown(strval($elements->AA->N).' - '.strval($elements->AA->NCO));
                 } else {
                     $record->setTown(strval($elements->AA->N));
