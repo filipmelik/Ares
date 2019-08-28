@@ -53,9 +53,25 @@ class AresRecord
     private $streetOrientationNumber;
 
     /**
+     * Nazev obce
+     *
      * @var string
      */
     private $town;
+
+    /**
+     * Nazev mestske casti
+     *
+     * @var string
+     */
+    private $townCityPart;
+
+    /**
+     * Nazev casti obce
+     *
+     * @var string
+     */
+    private $townPart;
 
     /**
      * @var string
@@ -92,6 +108,8 @@ class AresRecord
      * @param string|null $streetHouseNumber
      * @param string|null $streetOrientationNumber
      * @param string|null $town
+     * @param string|null $townCityPart
+     * @param string|null $townPart
      * @param string|null $zip
      * @param string|null $court
      * @param string|null $section
@@ -106,6 +124,8 @@ class AresRecord
         $streetHouseNumber = null,
         $streetOrientationNumber = null,
         $town = null,
+        $townCityPart = null,
+        $townPart = null,
         $zip = null,
         $court = null,
         $section = null,
@@ -119,6 +139,8 @@ class AresRecord
         $this->streetHouseNumber = !empty($streetHouseNumber) ? $streetHouseNumber : null;
         $this->streetOrientationNumber = !empty($streetOrientationNumber) ? $streetOrientationNumber : null;
         $this->town = $town;
+        $this->townCityPart = $townCityPart;
+        $this->townPart = $townPart;
         $this->zip = $zip;
         $this->court = $court;
         $this->section = $section;
@@ -205,6 +227,39 @@ class AresRecord
     public function getTown()
     {
         return $this->town;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTownPart()
+    {
+        return $this->townPart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTownCityPart()
+    {
+        return $this->townCityPart;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullTown()
+    {
+        if ($this->town === 'Praha') {
+            $townPartString = empty($this->townPart) ? '' : ' - ' . $this->townPart;
+
+            return sprintf('%s%s', $this->town, $townPartString);
+        } elseif (!empty($this->townPart) && ($this->townPart !== $this->town)) {
+
+            return sprintf('%s - %s', $this->town, $this->townPart);
+        } else {
+            return $this->town;
+        }
     }
 
     /**
@@ -345,6 +400,22 @@ class AresRecord
     public function setTown($town)
     {
         $this->town = $town;
+    }
+
+    /**
+     * @param string $townPart
+     */
+    public function setTownPart($townPart)
+    {
+        $this->townPart = $townPart;
+    }
+
+    /**
+     * @param string $townCityPart
+     */
+    public function setTownCityPart($townCityPart)
+    {
+        $this->townCityPart = $townCityPart;
     }
 
     /**

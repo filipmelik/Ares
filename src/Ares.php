@@ -151,14 +151,14 @@ class Ares
                     }
                 }
 
-                if (strval($elements->AA->N) === 'Praha') {
-                    $record->setTown(strval($elements->AA->NMC).' - '.strval($elements->AA->NCO));
-                } elseif (!empty($elements->AA->NCO) && (strval($elements->AA->NCO) !== strval($elements->AA->N))) {
-                    $record->setTown(strval($elements->AA->N).' - '.strval($elements->AA->NCO));
-                } else {
-                    $record->setTown(strval($elements->AA->N));
+                if (!empty($elements->AA->NMC)) {
+                    $record->setTownCityPart(strval($elements->AA->NMC));
+                }
+                if (!empty($elements->AA->NCO)) {
+                    $record->setTownPart(strval($elements->AA->NCO));
                 }
 
+                $record->setTown(strval($elements->AA->N));
                 $record->setZip(strval($elements->AA->PSC));
 
                 if (!empty($elements->ROR->SZ->SD->T)) {
