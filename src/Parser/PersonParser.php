@@ -16,7 +16,7 @@ final class PersonParser
     public static function parseFromDomCrawler(Crawler $crawler)
     {
         $person = $crawler->filter('.div-cell')->each(function (Crawler $node, $i) {
-            $content = StringHelper::removeEmptyLines($node->text());
+            $content = StringHelper::removeEmptyLines($node->text(null, false));
             $contentItems = explode("\n", $content);
             $contentItems = array_map('trim', $contentItems);
 

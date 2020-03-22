@@ -2,7 +2,6 @@
 
 namespace Defr\Parser;
 
-use DateTime;
 use DateTimeInterface;
 
 final class DateTimeParser
@@ -35,6 +34,8 @@ final class DateTimeParser
         $czechDate = trim($czechDate);
         $englishDate = strtr($czechDate, self::$czechToEnglishMonths);
 
-        return new DateTime($englishDate);
-    }
+        $date = new \DateTime('@' . strtotime($englishDate));
+        $date->setTimezone(new \DateTimeZone("Europe/Prague"));
+
+        return $date;    }
 }

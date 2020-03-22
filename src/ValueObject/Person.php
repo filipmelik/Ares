@@ -5,7 +5,7 @@ namespace Defr\ValueObject;
 use DateTime;
 use DateTimeInterface;
 
-final class Person
+final class Person implements \JsonSerializable
 {
     /**
      * @var string
@@ -39,7 +39,13 @@ final class Person
      * @param DateTimeInterface $registered
      * @param $type
      */
-    public function __construct($name, DateTimeInterface $birthday, $address, DateTimeInterface $registered, $type)
+    public function __construct(
+        $name = null,
+        DateTimeInterface $birthday = null,
+        $address = null,
+        DateTimeInterface $registered = null,
+        $type = null
+    )
     {
         $this->name = $name;
         $this->birthday = $birthday;
@@ -87,4 +93,17 @@ final class Person
         return $this->type;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'name'       => $this->name,
+            'birthday'   => $this->birthday,
+            'address'    => $this->address,
+            'registered' => $this->registered,
+            'type'       => $this->type,
+        ];
+    }
 }

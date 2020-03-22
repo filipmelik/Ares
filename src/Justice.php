@@ -56,7 +56,7 @@ final class Justice
             $title = $table->filter('.vr-hlavicka')->text();
 
             try {
-                if (in_array($title, ['jednatel: ', 'Jednatel: ', 'Společník: '])) {
+                if (in_array(trim(mb_strtolower($title)), ['jednatel:', 'společník:'])) {
                     $person = PersonParser::parseFromDomCrawler($table);
                     if ($person !== null && !isset($people[$person->getName()])) {
                         $people[$person->getName()] = $person;
