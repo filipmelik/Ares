@@ -148,19 +148,19 @@ final class AresTest extends PHPUnit_Framework_TestCase
                 'expectedAresRecord'       => new Ares\AresRecord(
                     '04084063',
                     'CZ04084063',
-                    'Česká telekomunikační infrastruktura a.s.',
-                    'Olšanská',
-                    '2681',
-                    '6',
+                    'CETIN a.s.',
+                    'Českomoravská',
+                    '2510',
+                    '19',
                     'Praha',
-                    'Praha 3',
-                    'Žižkov',
-                    '13000',
+                    'Praha 9',
+                    'Libeň',
+                    '19000',
                     'Městský soud v Praze',
                     'B',
                     '20623'
                 ),
-                'expectedFullTown' => 'Praha - Žižkov',
+                'expectedFullTown' => 'Praha - Libeň',
             ],
             [
                 // company with address that is returned in composite element AA-CA and has weird VAT ID
@@ -172,18 +172,17 @@ final class AresTest extends PHPUnit_Framework_TestCase
                     'Skupinove_DPH',
                     'Modrá pyramida stavební spořitelna, a.s.',
                     'Bělehradská',
-                    null,
-                    null,
+                    '222',
+                    '128',
+                    'Praha',
                     'Praha 2',
-                    '',
-                    '',
-                    '12021',
+                    'Vinohrady',
+                    '12000',
                     'Městský soud v Praze',
                     'B',
                     '2281',
-                    'Bělehradská 128, čp.222'
                 ),
-                'expectedFullTown' => 'Praha 2',
+                'expectedFullTown' => 'Praha - Vinohrady',
             ],
             [
                 // company with town that is returned in composite element AA-CA
@@ -207,6 +206,28 @@ final class AresTest extends PHPUnit_Framework_TestCase
                     null
                 ),
                 'expectedFullTown' => 'Praha - Běchovice',
+            ],
+            [
+                // Druzstvo
+                'companyId'                => '00042722',
+                'expectedException'        => null,
+                'expectedExceptionMessage' => null,
+                'expectedAresRecord'       => new Ares\AresRecord(
+                    '00042722',
+                    'CZ00042722',
+                    'Stavební bytové družstvo Pozemní stavby Liberec',
+                    'Mlýnská',
+                    '611',
+                    '35',
+                    'Liberec',
+                    'Liberec (nečleněné město)',
+                    'Liberec IV-Perštýn',
+                    '46001',
+                    'Krajský soud v Ústí nad Labem',
+                    'DrXXVI',
+                    '268'
+                ),
+                'expectedFullTown' => 'Liberec - Liberec IV-Perštýn',
             ],
         ];
     }

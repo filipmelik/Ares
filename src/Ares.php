@@ -340,6 +340,13 @@ class Ares
         $ns = $aresResponse->getDocNamespaces();
         $data = $aresResponse->children($ns['are']);
         $elements = $data->children($ns['dtt'])->V->S;
+        $error = $data->children($ns['dtt'])->Error;
+
+        if (!empty($error)) {
+            $errCode = intval($data->children($ns['dtt'])->Error->Error_kod);
+            $errMsg = strval($data->children($ns['dtt'])->Error->Error_text);
+            throw new AresException($errMsg, $errCode);
+        }
 
         if (empty($elements)) {
             throw new AresException('Nic nebylo nalezeno.');
